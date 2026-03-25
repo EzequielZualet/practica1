@@ -1,4 +1,5 @@
 import random
+import string
 
 words = [
     "python",
@@ -19,6 +20,7 @@ print("¡Bienvenido al Ahorcado!")
 print()
 
 while attempts > 0:
+    
     # Mostrar progreso: letras adivinadas y guiones para las que faltan
     progress = ""
     for letter in word:
@@ -37,6 +39,11 @@ while attempts > 0:
     print(f"Letras usadas: {', '.join(guessed)}")
 
     letter = input("Ingresá una letra: ")
+    # Una sola letra del alfabeto (no número ni otro símbolo); si no, no cuenta el turno
+    if len(letter) != 1 or letter in string.digits or letter not in string.ascii_letters:
+        print("Entrada no válida")
+        continue
+    letter = letter.lower()
 
     if letter in guessed:
         print("Ya usaste esa letra.")
@@ -47,7 +54,6 @@ while attempts > 0:
         guessed.append(letter)
         attempts -= 1
         print("Esa letra no está en la palabra.")
-
     print()
 
 else:
