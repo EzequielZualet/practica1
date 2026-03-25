@@ -25,56 +25,61 @@ while not opcion.isdigit() or not (1 <= int(opcion) <= len(nombres_categorias)):
 categoria_elegida = nombres_categorias[int(opcion) - 1]
 palabras = categorias[categoria_elegida]
 
-word = random.choice(palabras)
-guessed = []
-attempts = 6
+palabras_mezcladas = random.sample(palabras, len(palabras))
 score = 0
 
-print(f"\nAhorcado - Categoría: {categoria_elegida}")
-print()
+#recorrer palabras sin repetir
+for word in palabras_mezcladas:
 
-while attempts > 0:
+    guessed = []
+    attempts = 6
 
-    # Mostrar progreso: letras adivinadas y guiones para las que faltan
-    progress = ""
-    for letter in word:
-        if letter in guessed:
-            progress += letter + " "
-        else:
-            progress += "_ "
-    print(progress)
-
-    #Verificar si el jugador ya adivinó la palabra completa
-    if "_" not in progress:
-        print("¡Ganaste!")
-        score += 6
-        break
-
-    print(f"Intentos restantes: {attempts}")
-    print(f"Letras usadas: {', '.join(guessed)}")
-
-    letter = input("Ingresá una letra: ")
-
-    # Una sola letra del alfabeto (no número ni otro símbolo); si no, no cuenta el turno
-    if len(letter) != 1 or letter in string.digits or letter not in string.ascii_letters:
-        print("Entrada no válida")
-        continue
-    letter = letter.lower()
-
-    if letter in guessed:
-        print("Ya usaste esa letra.")
-    elif letter in word:
-        guessed.append(letter)
-        print("¡Bien! Esa letra está en la palabra.")
-    else:
-        guessed.append(letter)
-        attempts -= 1
-        score -= 1
-        print("Esa letra no está en la palabra.")
+    print(f"\nAhorcado - Categoría: {categoria_elegida}")
     print()
 
-else:
-    print(f"¡Perdiste! La palabra era: {word}")
-    score = 0
+    while attempts > 0:
+
+        # Mostrar progreso: letras adivinadas y guiones para las que faltan
+        progress = ""
+        for letter in word:
+            if letter in guessed:
+                progress += letter + " "
+            else:
+                progress += "_ "
+        print(progress)
+
+         #Verificar si el jugador ya adivinó la palabra completa
+        if "_" not in progress:
+            print("¡Ganaste!")
+            score += 6
+            break
+
+        print(f"Intentos restantes: {attempts}")
+        print(f"Letras usadas: {', '.join(guessed)}")
+
+        letter = input("Ingresá una letra: ")
+
+        # Una sola letra del alfabeto (no número ni otro símbolo); si no, no cuenta el turno
+        if len(letter) != 1 or letter in string.digits or letter not in string.ascii_letters:
+            print("Entrada no válida")
+            continue
+
+        letter = letter.lower()
+
+        if letter in guessed:
+            print("Ya usaste esa letra.")
+        elif letter in word:
+            guessed.append(letter)
+            print("¡Bien! Esa letra está en la palabra.")
+        else:
+            guessed.append(letter)
+            attempts -= 1
+            score -= 1
+            print("Esa letra no está en la palabra.")
+        print()
+
+    else:
+        print(f"¡Perdiste! La palabra era: {word}")
+        score = 0
 
 print(f"Puntaje final: {score}")
